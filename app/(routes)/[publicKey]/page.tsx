@@ -2,6 +2,7 @@ import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Link from "next/link";
+import Box from "../_components/box";
 
 interface AccountDetailPageProps {
   params: {
@@ -88,11 +89,45 @@ const AccountPage = async ({ params }: AccountDetailPageProps) => {
           "Vítejte na stránce, kde můžete zcela anonymně ohlásit nové pozorování. Vyberte prosím z následujících možností."
         }
       >
-        E-mailový kontat na správces společnosti {name} je:{" "}
-        <Link href="">{email}</Link>. Status společnosti je{" "}
-        <pre>
-          <code>{JSON.stringify(verifyKey.data, null, 2)}</code>
-        </pre>
+        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          Finančí trestné činy
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+        </div>
+        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          Porušování pracovních předpisů
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+        </div>
+        <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+          Ostatní oznámení
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+          <Box link="/" />
+        </div>
       </Container>
     </div>
   );

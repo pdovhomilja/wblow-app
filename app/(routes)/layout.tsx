@@ -7,9 +7,9 @@ export default function RoutesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col w-full h-screen">
+    <div className="flex flex-col w-full h-screen overflow-hidden">
       <TopMenu />
-      <div className="h-full">{children}</div>
+      <div className="h-full overflow-auto">{children}</div>
       <Footer />
     </div>
   );

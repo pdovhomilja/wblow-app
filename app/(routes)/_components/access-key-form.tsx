@@ -36,9 +36,7 @@ const AccessKeyForm = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log(data, "data");
-    await router.push(`/${data.publicKey}`);
-
+    router.push(`/${data.publicKey}`);
     setIsLoading(false);
   };
   return (
