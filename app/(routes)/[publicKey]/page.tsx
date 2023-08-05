@@ -3,13 +3,13 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Link from "next/link";
 
-interface AccounttDetailPageProps {
+interface AccountDetailPageProps {
   params: {
     publicKey: string;
   };
 }
 
-const AccountPage = async ({ params }: AccounttDetailPageProps) => {
+const AccountPage = async ({ params }: AccountDetailPageProps) => {
   const { publicKey } = params;
 
   const verifyKey = await axios.get(
@@ -17,8 +17,6 @@ const AccountPage = async ({ params }: AccounttDetailPageProps) => {
   );
 
   const { data } = verifyKey.data;
-
-  //console.log(data, "data");
 
   const { name, email, status } = data;
 
@@ -34,6 +32,54 @@ const AccountPage = async ({ params }: AccounttDetailPageProps) => {
       </div>
     );
   }
+
+  if (status === "deleted") {
+    return (
+      <div className="flex flex-col space-y-5 justify-center items-center max-w-7xl h-full mx-auto ">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Prostor společnosti {name} byl smazán.
+        </h1>
+        <Button asChild>
+          <a href="/">Zpět</a>
+        </Button>
+      </div>
+    );
+  }
+
+  if (status === "suspended") {
+    return (
+      <div className="flex flex-col space-y-5 justify-center items-center max-w-7xl h-full mx-auto ">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Prostor společnosti {name} byl pozastavený.
+        </h1>
+        <p className="leading-7 [&:not(:first-child)]:mt-6">
+          Pro znovu aktivaci kontaktujte správce společnosti {name} na emailové
+          adrese - {email}
+        </p>
+        <Button asChild>
+          <a href="/">Zpět</a>
+        </Button>
+      </div>
+    );
+  }
+
+  if (status === "inactive") {
+    return (
+      <div className="flex flex-col space-y-5 justify-center items-center max-w-7xl h-full mx-auto ">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Prostor společnosti {name} byl deaktivován.
+        </h1>
+        <p className="leading-7 [&:not(:first-child)]:mt-6">
+          Pro znovu aktivaci kontaktujte správce společnosti {name} na emailové
+          adrese - {email}
+        </p>
+        <Button asChild>
+          <a href="/">Zpět</a>
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto h-full">
       <Container
