@@ -23,7 +23,9 @@ const AccessKeyForm = (props: Props) => {
   const router = useRouter();
 
   const formSchema = z.object({
-    publicKey: z.string().min(3).max(50),
+    publicKey: z
+      .string({ required_error: "Privátní kód je vyžadován" })
+      .cuid({ message: "Nesprávný formán privátního kódu" }),
   });
 
   type BillboardFormValues = z.infer<typeof formSchema>;
