@@ -12,7 +12,7 @@ const AccountPage = async ({ params }: AccounttDetailPageProps) => {
   const { publicKey } = params;
 
   const verifyKey = await axios.get(
-    `http://localhost:3000/api/verifyKey/${publicKey}`
+    `${process.env.WBLOW_ADMIN_URL}/api/verifyKey/${publicKey}`
   );
 
   if (verifyKey.data.message === "Invalid") {
