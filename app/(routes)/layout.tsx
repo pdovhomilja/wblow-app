@@ -9,7 +9,7 @@ export default function RoutesLayout({
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden">
       <TopMenu />
-      <div className="h-full overflow-auto">{children}</div>
+      <div className="h-full overflow-hidden">{children}</div>
       <Footer />
     </div>
   );

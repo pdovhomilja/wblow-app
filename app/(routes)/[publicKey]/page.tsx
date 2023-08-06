@@ -19,6 +19,19 @@ const AccountPage = async ({ params }: AccountDetailPageProps) => {
 
   const { data } = verifyKey.data;
 
+  if (!data) {
+    return (
+      <div className="flex flex-col space-y-5 justify-center items-center max-w-7xl h-full mx-auto ">
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+          Bohužel jste zadali neplatný veřejný kód.
+        </h1>
+        <Button asChild>
+          <a href="/">Zkusit znovu</a>
+        </Button>
+      </div>
+    );
+  }
+
   const { name, email, status } = data;
 
   if (verifyKey.data.message === "Invalid") {
@@ -93,41 +106,16 @@ const AccountPage = async ({ params }: AccountDetailPageProps) => {
           Finančí trestné činy
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
+          <Box link={`${publicKey}/fraud`} title={"Podvod"} />
         </div>
         <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
           Porušování pracovních předpisů
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full"></div>
         <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
           Ostatní oznámení
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full">
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-          <Box link="/" />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 py-5 w-full"></div>
       </Container>
     </div>
   );

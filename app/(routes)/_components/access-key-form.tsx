@@ -55,7 +55,7 @@ const AccessKeyForm = (props: Props) => {
                 <FormControl>
                   <Input
                     disabled={isLoading}
-                    placeholder="bude vypadat takto: s173bcc78-761b-41f9-a7e0-1ae6d4efeb96"
+                    placeholder="bude vypadat takto: clkyezmih0005de7g63vk4feyk"
                     {...field}
                   />
                 </FormControl>
