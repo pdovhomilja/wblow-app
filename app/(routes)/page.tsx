@@ -18,8 +18,7 @@ export default function Home() {
       </h1>
       <div className="border rounded-md p-20 space-y-10">
         <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-          Aby bylo možné ohlásit nové pozorování, je potřeba zadat přístupový
-          kód.
+          Aby bylo možné ohlásit nové pozorování, je potřeba zadat privátní kód.
         </h4>
         <AccessKeyForm />
       </div>

@@ -13,7 +13,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { FingerprintIcon } from "lucide-react";
 
-import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -53,20 +52,13 @@ export function RegisterComponent() {
     language: z.string().min(2).max(50),
     password: z.string().min(8).max(50),
     confirmPassword: z.string().min(8).max(50),
+    publicKey: z.string().cuid(),
   });
 
   type BillboardFormValues = z.infer<typeof formSchema>;
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      username: "",
-      email: "",
-      language: "",
-      password: "",
-      confirmPassword: "",
-    },
   });
 
   const onSubmit = async (data: BillboardFormValues) => {
@@ -92,19 +84,6 @@ export function RegisterComponent() {
     }
   };
 
-  const loginWithGoogle = async () => {
-    setIsLoading(true);
-
-    try {
-      await signIn("google", {
-        callbackUrl: process.env.NEXT_PUBLIC_APP_URL,
-      });
-    } catch (error) {
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const languageOptions = [
     { value: "en", label: "English" },
     { value: "cz", label: "Czech" },
@@ -113,34 +92,14 @@ export function RegisterComponent() {
   return (
     <Card className="shadow-lg ">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create new account</CardTitle>
-        <CardDescription>Create account by login with:</CardDescription>
+        <CardTitle className="text-2xl">
+          Vytvoření nového uživatelského účtu
+        </CardTitle>
+        <CardDescription>
+          Pro vytvoření uživatelského účtu budete také potřebovat privátní kód.
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 overflow-auto">
-        <div className="grid grid-cols-2 gap-6">
-          {/*        <Button variant="outline">
-            <Icons.gitHub className="mr-2 h-4 w-4" />
-            Github
-          </Button> */}
-          <Button
-            variant="outline"
-            onClick={loginWithGoogle}
-            disabled={isLoading}
-          >
-            <Icons.google className="mr-2 h-4 w-4" />
-            Google
-          </Button>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or create new account
-            </span>
-          </div>
-        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-2">
@@ -149,7 +108,7 @@ export function RegisterComponent() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Celé jméno</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
@@ -166,7 +125,7 @@ export function RegisterComponent() {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Uživatelské jméno</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
@@ -197,10 +156,27 @@ export function RegisterComponent() {
               />
               <FormField
                 control={form.control}
+                name="publicKey"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Privátní kód</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        placeholder="clkyezmih0005de7g63vk4feyk"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="language"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Language</FormLabel>
+                    <FormLabel>Jazyk</FormLabel>
                     <Select
                       disabled={isLoading}
                       onValueChange={field.onChange}
@@ -211,7 +187,7 @@ export function RegisterComponent() {
                         <SelectTrigger>
                           <SelectValue
                             defaultValue={field.value}
-                            placeholder="Select a billboard"
+                            placeholder="Vyber jazyk"
                           />
                         </SelectTrigger>
                       </FormControl>
@@ -233,12 +209,12 @@ export function RegisterComponent() {
                   name="password"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Heslo</FormLabel>
                       <FormControl>
                         <Input
                           className="w-full"
                           disabled={isLoading}
-                          placeholder="Password"
+                          placeholder="e7g63vFDSAk4fDF"
                           type={show ? "text" : "password"}
                           {...field}
                         />
@@ -260,12 +236,12 @@ export function RegisterComponent() {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Confirm Password</FormLabel>
+                      <FormLabel>Potvrzení hesla</FormLabel>
                       <FormControl>
                         <Input
                           className="w-full"
                           disabled={isLoading}
-                          placeholder="Password"
+                          placeholder="e7g63vFDSAk4fDF"
                           type={show ? "text" : "password"}
                           {...field}
                         />
@@ -285,7 +261,7 @@ export function RegisterComponent() {
 
             <div className="grid gap-2 py-5">
               <Button disabled={isLoading} type="submit">
-                Create account
+                Vytvoření účtu
               </Button>
             </div>
           </form>
@@ -293,9 +269,9 @@ export function RegisterComponent() {
       </CardContent>
       <CardFooter className="flex flex-col space-y-5">
         <div className="text-sm text-gray-500">
-          Already have an account?{" "}
+          Máte už účet?{" "}
           <Link href={"/sign-in"} className="text-blue-500">
-            sign-in
+            přihlašte se zde
           </Link>
         </div>
       </CardFooter>

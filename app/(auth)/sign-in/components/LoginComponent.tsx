@@ -68,7 +68,7 @@ export function LoginComponent() {
     },
   });
 
-  const loginWithGoogle = async () => {
+  /*   const loginWithGoogle = async () => {
     setIsLoading(true);
     try {
       await signIn("google", {
@@ -78,7 +78,7 @@ export function LoginComponent() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }; */
 
   //Login with username(email)/password
   async function onSubmit(data: BillboardFormValues) {
@@ -98,7 +98,7 @@ export function LoginComponent() {
       });
     }
     if (status?.ok) {
-      router.push("/");
+      router.push("/dashboard");
     }
   }
 
@@ -129,15 +129,14 @@ export function LoginComponent() {
   return (
     <Card className="shadow-lg">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Login</CardTitle>
-        <CardDescription>Click here to login with: </CardDescription>
+        <CardTitle className="text-2xl">Přihlášení</CardTitle>
+        <CardDescription>
+          Přihlašte se za pomoci Vašich přístupových údajů:{" "}
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <div className="grid grid-cols-2 gap-6">
-          {/*           <Button variant="outline">
-            <Icons.gitHub className="mr-2 h-4 w-4" />
-            Github
-          </Button> */}
+        {/*      <div className="grid grid-cols-2 gap-6">
+   
           <Button
             variant="outline"
             onClick={loginWithGoogle}
@@ -160,7 +159,7 @@ export function LoginComponent() {
               Or continue with
             </span>
           </div>
-        </div>
+        </div> */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-2">
@@ -187,12 +186,12 @@ export function LoginComponent() {
                   name="password"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Heslo</FormLabel>
                       <FormControl>
                         <Input
                           className="w-full"
                           disabled={isLoading}
-                          placeholder="Password"
+                          placeholder="Heslo"
                           type={show ? "text" : "password"}
                           {...field}
                         />
@@ -216,16 +215,14 @@ export function LoginComponent() {
                 className="flex gap-2 h-12"
               >
                 <span
-                  className={
-                    isLoading
-                      ? " border rounded-full px-3 py-2 animate-spin"
-                      : "hidden"
-                  }
+                  className={isLoading ? "px-3 py-2 animate-spin" : "hidden"}
                 >
-                  N
+                  <Icons.spinner className="h-6 w-6" />
                 </span>
-                <span className={isLoading ? " " : "hidden"}>Loading ...</span>
-                <span className={isLoading ? "hidden" : ""}>Login</span>
+                <span className={isLoading ? " " : "hidden"}>
+                  Ověřování ...
+                </span>
+                <span className={isLoading ? "hidden" : ""}>Přihlásit</span>
               </Button>
             </div>
           </form>
@@ -233,24 +230,22 @@ export function LoginComponent() {
       </CardContent>
       <CardFooter className="flex flex-col space-y-5">
         <div className="text-sm text-gray-500">
-          Need account? Register{" "}
+          Nemáte účet? Registrujte se{" "}
           <Link href={"/register"} className="text-blue-500">
-            here
+            zde
           </Link>
         </div>
         <div className="text-sm text-gray-500">
-          Need password reset? Click
-          {/* Dialog start */}
+          Zapoměli jste heslo? Klikněte {/* Dialog start */}
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="text-blue-500">
-              <span className="px-2">here</span>
+              <span className="px-2">zde</span>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle className="p-5">Password Reset</DialogTitle>
+                <DialogTitle className="p-5">Změna hesla</DialogTitle>
                 <DialogDescription className="p-5">
-                  Enter your email address and we will send new password to your
-                  e-mail.
+                  Napište Vaši emailovou adresu spojenou s Vaším účtem.
                 </DialogDescription>
               </DialogHeader>
               {isLoading ? (
@@ -273,7 +268,7 @@ export function LoginComponent() {
                 </div>
               )}
               <DialogTrigger className="w-full text-right pt-5 ">
-                <Button variant={"destructive"}>Cancel</Button>
+                <Button variant={"destructive"}>Zrušit</Button>
               </DialogTrigger>
             </DialogContent>
           </Dialog>

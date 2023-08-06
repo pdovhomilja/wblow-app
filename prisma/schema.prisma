@@ -24,7 +24,7 @@ model Account {
   id_token          String? @db.String
   session_state     String?
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -34,18 +34,29 @@ model Session {
   sessionToken String   @unique
   userId       String   @db.ObjectId
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?   @unique
+model Users {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  avatar        String?
+  name          String
+  username      String
+  email         String        @unique
   emailVerified DateTime?
-  image         String?
-  password     String?
+  password      String?
+  publicKey     String?
+  isAdmin       Boolean?      @default(false)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  userLanguage  userLanguage? @default(cz)
   accounts      Account[]
   sessions      Session[]
+}
+
+enum userLanguage {
+  en
+  cz
 }
 
 model VerificationToken {

@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
-function getGoogleCredentials(): { clientId: string; clientSecret: string } {
+/* function getGoogleCredentials(): { clientId: string; clientSecret: string } {
   const clientId = process.env.GOOGLE_ID;
   const clientSecret = process.env.GOOGLE_SECRET;
   if (!clientId || clientId.length === 0) {
@@ -16,7 +16,7 @@ function getGoogleCredentials(): { clientId: string; clientSecret: string } {
   }
 
   return { clientId, clientSecret };
-}
+} */
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.JWT_SECRET,
@@ -26,12 +26,13 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/sign-in",
+    signOut: "/",
   },
   providers: [
-    GoogleProvider({
+    /*     GoogleProvider({
       clientId: getGoogleCredentials().clientId,
       clientSecret: getGoogleCredentials().clientSecret,
-    }),
+    }), */
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -45,11 +46,15 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
-        const user = await prismadb.user.findFirst({
+        const user = await prismadb.users.findFirst({
           where: {
             email: credentials.email,
           },
         });
+
+        if (!user) {
+          throw new Error("User not found");
+        }
 
         if (!user || !user?.password) {
           throw new Error("Invalid credentials");
@@ -72,7 +77,25 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ token, session }: any) {
       //If user not found in localDB, create new user
-      return { ...session };
+      const user = await prismadb.users.findFirst({
+        where: {
+          email: token.email,
+        },
+      });
+
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      session.user.id = user.id;
+      session.user.name = user.name;
+      session.user.email = user.email;
+      session.user.avatar = user.avatar;
+      session.user.image = user.avatar;
+      session.user.isAdmin = user.isAdmin;
+      session.user.userLanguage = user.userLanguage;
+
+      return session;
     },
   },
 };
